@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { GestionproveedorService } from './gestionproveedor.service';
 import { gestionproveedorDto } from './dto/gestionproveedorDto.dto';
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
@@ -17,7 +17,7 @@ export class GestionproveedorController {
 
     @Get('/:id')
     @ApiOperation({ summary: 'retorna el listado de la información del proveedor encontrado por el Id' })
-    getProveedorById(@Param('id') id: number) {
+    getProveedorById(@Param('id',ParseIntPipe) id: number) {
         return this.proveedorServices.getProveedorById(id);
     }
 
@@ -29,11 +29,11 @@ export class GestionproveedorController {
     @Put()
     @ApiOperation({ summary: 'Actualiza un proveedor' })
     updateProveedor(@Body() proveedor: gestionproveedorDto) {
-        return this.proveedorServices.saveProveedor(proveedor);
+        return this.proveedorServices.updateProveedor(proveedor);
     }
     @Delete('/:id')
     @ApiOperation({ summary: 'Inactiva un proveedor por su id' })
-    deleteProveedor(@Param('id') id: number) {
+    deleteProveedor(@Param('id',ParseIntPipe) id: number) {
         return this.proveedorServices.deleteProveedor(id);
     }
 }
